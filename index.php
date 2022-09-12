@@ -74,27 +74,33 @@ class Color
     }
     static function random()
     {
-        $a = [rand(0,255),rand(0,255),rand(0,255)];
-        $rgb = $a[rand(0,2)];
-        return new $rgb;
+        return  new Color(rand(0, 255), rand(0, 255), rand(0, 255));
     }
-    public function mix(string $color,int $value)
+    public function mix(int $colorRed,int $colorGreen,int $colorBlue)
     {
-        if ($color === 'red'){
-            $mixRed = ($this->red + $value)/2;
-            return new $mixRed;
-        }elseif ($color === 'green'){
-            $mixGreen = ($this->green + $value)/2;
-            return new $mixGreen;
-        }elseif ($color === 'blue'){
-            $mixGreen = ($this->blue + $value)/2;
-            return new $mixGreen;
+        if ($this->valid($colorRed)){
+            $newRed = ($this->red + $colorRed)/2;
         }else{
-            echo 'Нет такого цвета';
+            echo 'Число сильно большое($red)';
+            $newRed = $this->red;
         }
+        if ($this->valid($colorGreen)){
+            $newGreen = ($this->green + $colorGreen)/2;
+        }else{
+            echo 'Число сильно большое($green)';
+            $newGreen = $this->green;
+        }
+        if ($this->valid($colorBlue)){
+            $newBlue = ($this->blue + $colorBlue)/2;
+        }else{
+            echo 'Число сильно большое($blue)';
+            $newBlue = $this->blue;
+        }
+        return new Color($newRed,$newGreen,$newBlue);
     }
 }
-$new = new Color(260, 10, 50);
-echo $new->getGreen().PHP_EOL;
-echo $new->equals('bluegfgf');
-echo false;
+//$new = new Color(260, 10, 50);
+//echo $new->getGreen().PHP_EOL;
+//echo $new->equals('bluegfgf');
+$rgb = Color::random();
+var_dump($rgb);
