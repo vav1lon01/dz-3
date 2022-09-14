@@ -1,6 +1,10 @@
 <?php
+$a = new Exception();
+
+
 class Color
 {
+
     private $red;
     private $green;
     private $blue;
@@ -10,30 +14,38 @@ class Color
         $this->setGreen($green);
         $this->setBlue($blue);
     }
+    private function valid($value)
+    {
+        if (($value > 0) && ($value < 255)){
+            return true;
+        }else{
+            return false;
+        }
+    }
     private function setRed( ?int $value)
     {
-        if (($value > 0) && ($value < 255))
+        if ($this->valid($value))
         {
             $this->red = $value;
         }else{
-            echo 'Лимит числа';
+            throw Exception('not a valid number');
         }
 
     }
     private function setGreen(?int $value)
     {
-        if (($value > 0) && ($value < 255)) {
+        if ($this->valid($value)) {
             $this->green = $value;
         }else{
-            echo 'Лимит числа';
+            throw Exception('not a valid number');
         }
     }
     private  function  setBlue(?int $value)
     {
-        if (($value > 0) && ($value < 255)) {
+        if ($this->valid($value)) {
             $this->blue = $value;
         }else{
-            echo 'Лимит числа';
+            throw Exception('not a valid number');
         }
     }
     public function getRed()
@@ -48,55 +60,32 @@ class Color
     {
         return $this->blue;
     }
-    public function equals(string $color)
+    public function equals(Color $color)
     {
-        if ($color === 'red'){
-            if (($this->red > $this->green) && ($this->red > $this->blue)){
-                return true;
-            } else{
+            if ($color->getRed() == $this->getRed()){
+                if ($color->getGreen() == $this->getGreen()){
+                    if ($color->getBlue() == $this->getBlue()){
+                        return true;
+                    }else{
+                        return false;
+                    }
+                }else{
+                    return false;
+                }
+            }else{
                 return false;
             }
-        }elseif ($color === 'green'){
-            if (($this->green > $this->red) && ($this->green > $this->blue)){
-                return true;
-            } else{
-                return false;
-            }
-        }elseif ($color === 'blue'){
-            if (($this->blue > $this->red) && ($this->blue > $this->green)){
-                return true;
-            } else{
-                return false;
-            }
-        }else{
-           echo 'Нет такого цвета';
-        }
     }
     static function random()
     {
         return  new Color(rand(0, 255), rand(0, 255), rand(0, 255));
     }
-    public function mix(int $colorRed,int $colorGreen,int $colorBlue)
+    public function mix(Color $color)
     {
-        if ($this->valid($colorRed)){
-            $newRed = ($this->red + $colorRed)/2;
-        }else{
-            echo 'Число сильно большое($red)';
-            $newRed = $this->red;
-        }
-        if ($this->valid($colorGreen)){
-            $newGreen = ($this->green + $colorGreen)/2;
-        }else{
-            echo 'Число сильно большое($green)';
-            $newGreen = $this->green;
-        }
-        if ($this->valid($colorBlue)){
-            $newBlue = ($this->blue + $colorBlue)/2;
-        }else{
-            echo 'Число сильно большое($blue)';
-            $newBlue = $this->blue;
-        }
-        return new Color($newRed,$newGreen,$newBlue);
+       $newRed = ($this->getRed() + $color->getRed())/2;
+       $newGreen = ($this->getGreen() + $color->getGreen())/2;
+       $newBlue = ($this->getBlue() + $color->getBlue())/2;
+       return new Color($newRed, $newGreen, $newBlue);
     }
 }
 //$new = new Color(260, 10, 50);
