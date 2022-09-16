@@ -19,7 +19,7 @@ class Color
         if (($value > 0) && ($value < 255)){
             return true;
         }else{
-            return false;
+            throw Exception('not a valid number');
         }
     }
     private function setRed( ?int $value)
@@ -27,25 +27,18 @@ class Color
         if ($this->valid($value))
         {
             $this->red = $value;
-        }else{
-            throw Exception('not a valid number');
         }
-
     }
     private function setGreen(?int $value)
     {
         if ($this->valid($value)) {
             $this->green = $value;
-        }else{
-            throw Exception('not a valid number');
         }
     }
     private  function  setBlue(?int $value)
     {
         if ($this->valid($value)) {
             $this->blue = $value;
-        }else{
-            throw Exception('not a valid number');
         }
     }
     public function getRed()
